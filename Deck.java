@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,6 +21,7 @@ Scanner eye = new Scanner(System.in);
     public static String [] arr = new String[1];
     public static String [] jj = new String[1];
 public static int g = 0;
+public static String [] s2 = new String[1];
 public static int n = 0;
 public static int pıstı1=0;
 public static int pıstı2=0;
@@ -117,10 +120,17 @@ public void showp1p2(){
     public void p1turn () {
 
         System.out.println("1234");
-        int c = eye.nextInt();
-        choice = p1[c-1];
-        board[b] = choice;
-        p1[c-1]=null;
+
+        try{
+            int c = eye.nextInt();
+            choice = p1[c-1];
+            board[b] = choice;
+            p1[c-1]=null;}
+        catch (Exception e){
+            System.out.println("Please enter 1,2,3 or 4.");
+            p1turn();
+        }
+
 if(board[b-1]!=null){
 
        if(choice.charAt(1)==board[b-1].charAt(1) && board[b-2]==null){
@@ -300,7 +310,7 @@ public void p2ControlJ(){
 
 
 public void showp1(){
-    System.out.println("your cars:       "+"  1."+p1[0]+"   2."+p1[1]+"   3."+p1[2]+"   4. "+p1[3]) ;
+    System.out.println("your cards:       "+"  1."+p1[0]+"   2."+p1[1]+"   3."+p1[2]+"   4. "+p1[3]) ;
 }
 
 public void showBoard (){
@@ -319,7 +329,7 @@ public void showP1dP2d(){
 }
 }
 
-public void creatBoard(){
+    public void creatBoard(){
             for(int i=0;i<52;i++){
                 board[i]="oo";
             }
@@ -327,11 +337,87 @@ public void creatBoard(){
     public void showp2(){
         System.out.println("computers Cards "+"  1."+p2[0]+"   2."+p2[1]+"   3."+p2[2]+"   4. "+p2[3]) ;
     }
+
+
+
+
+    public int skorer1 (){
+    int p1skore=0;
+       for(int i =0;i<52;i++){
+
+           if ( p1d[i].equals("♦10")){
+               p1skore += 3;
+           }
+           else if (p1d[i].equals("♣2")){
+               p1skore += 2;
+           }
+           else if (p1d[i].charAt(1)==jj[0].charAt(1)){
+               p1skore += 1;
+           }
+       }
+
+       return  p1skore;
+
+    }
+
+
+    public int skorer2 (){
+        int p2skore=0;
+        for(int i =0;i<52;i++){
+
+            if ( p2d[i].equals("♦10")){
+                p2skore += 3;
+            }
+            else if (p2d[i].equals("♣2")){
+                p2skore += 2;
+            }
+            else if (p2d[i].charAt(1)==jj[0].charAt(1)){
+                p2skore += 1;
+            }
+        }
+
+        return  p2skore;
+
+    }
+
+
+    public void cardsCounter(){
+      int count1= 0;
+      int count2= 0;
+
+      int p1skore = skorer1();
+      int p2skore = skorer2();
+
+       for(int i=0;i<52;i++){
+           if(!p1d[i].equals("oo")){
+               count1++;
+           }
+       }
+
+        for(int i=0;i<52;i++){
+            if(!p2d[i].equals("oo")){
+                count2++;
+            }
+        }
+
+        if(count1 > count2){
+            p1skore += 3;
+        }
+        else if(count2 > count1){
+            p2skore += 3;
+        }
+        System.out.println("Your Score :  "+p1skore+"               Computers Score :  "+p2skore);
+
+        if(p1skore>p2skore){
+            System.out.println("*****YOU WIN*****");
+        }
+        else if(p2skore>p1skore){
+            System.out.println("*****YOU LOSE*****");
+        }
+        else {
+            System.out.println("*****DRAW*****");
+        }
+    }
+
 }
-
-
-
-
-
-
 
